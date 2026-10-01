@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>업박스(UpBox) 기획 결정 항목 입력 페이지</title>
+    <title>업박스 (UpBox) - 택배 자동 수송 서비스</title>
     <style>
         :root {
-            --bg: #f1f5f9;
-            --card-bg: #ffffff;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
-            --text-main: #0f172a;
-            --text-sub: #64748b;
-            --border: #cbd5e1;
             --accent: #f59e0b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
         }
 
         * {
@@ -26,248 +27,291 @@
         body {
             background-color: var(--bg);
             color: var(--text-main);
-            padding: 30px 16px;
+            padding: 20px 16px;
             display: flex;
             justify-content: center;
         }
 
         .container {
             width: 100%;
-            max-width: 760px;
+            max-width: 480px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
 
         .header {
-            background: var(--card-bg);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
             text-align: center;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
 
         .header h1 {
-            font-size: 24px;
             color: var(--primary);
-            margin-bottom: 6px;
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .header p {
+            color: var(--text-sub);
+            font-size: 13px;
+            margin-top: 4px;
         }
 
         .card {
             background: var(--card-bg);
-            padding: 24px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 16px;
             border: 1px solid var(--border);
         }
 
         .card-title {
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 700;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--bg);
-            color: var(--primary);
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .full {
-            grid-column: 1 / -1;
-        }
-
-        .field {
+        .form-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         label {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-main);
+            font-size: 13px;
+            color: var(--text-sub);
+            font-weight: 600;
         }
 
-        input[type="text"], textarea {
+        input {
             width: 100%;
             padding: 12px;
-            border: 1px solid var(--border);
             border-radius: 8px;
-            font-size: 14px;
+            border: 1px solid var(--border);
+            background: #0f172a;
+            color: #fff;
+            font-size: 15px;
             outline: none;
-            background: #fff;
         }
 
-        input[type="text"]:focus, textarea:focus {
+        input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        textarea {
-            height: 80px;
-            resize: vertical;
-        }
-
-        .btn-box {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 10px;
         }
 
         .btn {
-            padding: 12px 24px;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 8px;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
             border: none;
-            cursor: pointer;
-        }
-
-        .btn-save {
-            background: var(--primary);
+            background-color: var(--primary);
             color: white;
-        }
-
-        .btn-save:hover {
-            background: var(--primary-hover);
-        }
-
-        .btn-reset {
-            background: #e2e8f0;
-            color: var(--text-sub);
-        }
-
-        .status {
-            display: none;
-            padding: 12px;
-            background: #dcfce7;
-            color: #15803d;
-            border-radius: 8px;
-            text-align: center;
+            font-size: 16px;
             font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-scan {
+            background-color: #334155;
+            color: #38bdf8;
+            border: 1px solid #0284c7;
+            margin-bottom: 8px;
+        }
+
+        /* 수송 목록 */
+        .queue-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .queue-item {
+            background: #0f172a;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 14px;
         }
 
-        @media (max-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
+        .queue-item .info strong {
+            color: #fff;
+        }
+
+        .queue-item .info span {
+            color: var(--text-sub);
+            font-size: 12px;
+            display: block;
+        }
+
+        .badge {
+            background: #065f46;
+            color: #34d399;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* 실시간 상태창 */
+        .status-log {
+            background: #000;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #38bdf8;
+            height: 120px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- 헤더 -->
     <div class="header">
-        <h1>🚀 업박스(UpBox) 기획자 결정 입력폼</h1>
-        <p>아래 입력창에 직접 텍스트를 작성하거나 수정해보세요.</p>
+        <h1>📦 UpBox</h1>
+        <p>101동 승강기 자동 연결 수송 모듈</p>
     </div>
 
-    <form id="upboxForm" onsubmit="saveData(event)">
-        <div class="card">
-            <div class="card-title">✏️ 기획 결정 항목 (8가지)</div>
-            <div class="form-grid">
-                
-                <div class="field">
-                    <label for="serviceName">1. 서비스 이름</label>
-                    <input type="text" id="serviceName" value="업박스 (UpBox)" placeholder="서비스 이름을 입력하세요">
-                </div>
+    <!-- 입력폼 -->
+    <div class="card">
+        <div class="card-title">STEP 1. 사용자 및 택배 정보 입력</div>
+        
+        <div class="form-group">
+            <label>배송지 (동/호수)</label>
+            <input type="number" id="roomInput" placeholder="예: 802 (호수 입력시 층수 자동인식)">
+        </div>
 
-                <div class="field">
-                    <label for="targetUser">2. 타깃 사용자</label>
-                    <input type="text" id="targetUser" value="택배기사님, 배달로봇" placeholder="사용자를 입력하세요">
-                </div>
+        <div class="form-group">
+            <label>수령인 성함 (선택)</label>
+            <input type="text" id="nameInput" placeholder="예: 홍길동">
+        </div>
 
-                <div class="field full">
-                    <label for="problem">3. 해결하려는 문제</label>
-                    <textarea id="problem" placeholder="해결하려는 핵심 문제를 입력하세요">기사님의 층별 이동시간 지연, 엘리베이터 점유로 인한 입주민 민원 발생, 배달로봇 승강기 탑승 제약 문제</textarea>
-                </div>
+        <div class="form-group">
+            <label>운송장 번호 / 바코드</label>
+            <input type="text" id="barcodeInput" placeholder="운송장 번호 입력 또는 스캔">
+        </div>
 
-                <div class="field">
-                    <label for="scoreStandard">4. 점수 기준</label>
-                    <input type="text" id="scoreStandard" value="배송 시간 단축률, 엘리베이터 점유 시간" placeholder="점수 산정 기준">
-                </div>
+        <button class="btn btn-scan" onclick="scanBarcode()">📷 바코드/택배 카메라 스캔</button>
+        <button class="btn" onclick="addDelivery()">➕ 택배 수송 리스트에 적재</button>
+    </div>
 
-                <div class="field">
-                    <label for="timeData">5. 택배 시간 데이터</label>
-                    <input type="text" id="timeData" value="문열림 3~5분 유지, 층간 이동 평균 15초" placeholder="시간 기준값">
-                </div>
-
-                <div class="field">
-                    <label for="seatStructure">6. 좌석/적재 구조</label>
-                    <input type="text" id="seatStructure" value="엘리베이터 내부 3단 이동 선반 및 층별 전용 칸 구획" placeholder="내부 구조 설정">
-                </div>
-
-                <div class="field">
-                    <label for="resultGrade">7. 결과 등급</label>
-                    <input type="text" id="resultGrade" value="S등급, A등급, B등급 (효율성 기준)" placeholder="결과 등급 체계">
-                </div>
-
-                <div class="field full">
-                    <label for="designDirection">8. 디자인 방향</label>
-                    <input type="text" id="designDirection" value="야외 가시성이 높은 고대비 UI, 직관적인 대형 버튼 중심 디자인" placeholder="디자인 컨셉 입력">
-                </div>
-
+    <!-- 수송 대기 목록 -->
+    <div class="card">
+        <div class="card-title">STEP 2. 엘리베이터 적재 목록</div>
+        <div class="queue-list" id="queueList">
+            <div style="text-align: center; color: var(--text-sub); font-size: 13px; padding: 10px;">
+                등록된 택배가 없습니다.
             </div>
         </div>
+    </div>
 
-        <div id="statusMsg" class="status">✅ 저장되었습니다! (브라우저에 데이터가 저장됨)</div>
-
-        <div class="btn-btn-box btn-box">
-            <button type="button" class="btn btn-reset" onclick="resetForm()">초기화</button>
-            <button type="submit" class="btn btn-save">기획 내용 저장하기</button>
-        </div>
-    </form>
+    <!-- 수송 제어 -->
+    <div class="card">
+        <div class="card-title">STEP 3. 택배 위로 올리기</div>
+        <button class="btn" style="background-color: var(--accent); color: #000; margin-bottom: 10px;" onclick="startDelivery()">🚀 엘리베이터 수송 시작</button>
+        <div class="status-log" id="systemLog">> 엘리베이터 통신 연결 완료. 대기 중...</div>
+    </div>
 </div>
 
 <script>
-    // 페이지 로드 시 저장된 내용 불러오기
-    window.onload = function() {
-        const savedData = localStorage.getItem('upbox_plan');
-        if (savedData) {
-            const data = JSON.parse(savedData);
-            document.getElementById('serviceName').value = data.serviceName || '';
-            document.getElementById('targetUser').value = data.targetUser || '';
-            document.getElementById('problem').value = data.problem || '';
-            document.getElementById('scoreStandard').value = data.scoreStandard || '';
-            document.getElementById('timeData').value = data.timeData || '';
-            document.getElementById('seatStructure').value = data.seatStructure || '';
-            document.getElementById('resultGrade').value = data.resultGrade || '';
-            document.getElementById('designDirection').value = data.designDirection || '';
-        }
-    };
+    let deliveryQueue = [];
 
-    function saveData(e) {
-        e.preventDefault();
-        const data = {
-            serviceName: document.getElementById('serviceName').value,
-            targetUser: document.getElementById('targetUser').value,
-            problem: document.getElementById('problem').value,
-            scoreStandard: document.getElementById('scoreStandard').value,
-            timeData: document.getElementById('timeData').value,
-            seatStructure: document.getElementById('seatStructure').value,
-            resultGrade: document.getElementById('resultGrade').value,
-            designDirection: document.getElementById('designDirection').value
-        };
-
-        localStorage.setItem('upbox_plan', JSON.stringify(data));
-        
-        const msg = document.getElementById('statusMsg');
-        msg.style.display = 'block';
-        setTimeout(() => {
-            msg.style.display = 'none';
-        }, 2000);
+    function scanBarcode() {
+        const randomNum = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('barcodeInput').value = "UPBOX-" + randomNum;
+        log("[스캔 완료] 바코드 자동 인식됨: UPBOX-" + randomNum);
     }
 
-    function resetForm() {
-        if (confirm('모든 내용을 초기화하시겠습니까?')) {
-            document.getElementById('upboxForm').reset();
-            localStorage.removeItem('upbox_plan');
+    function addDelivery() {
+        const room = document.getElementById('roomInput').value;
+        const name = document.getElementById('nameInput').value || '입주민';
+        const barcode = document.getElementById('barcodeInput').value || '미인식';
+
+        if (!room) {
+            alert('동/호수를 입력해 주세요.');
+            return;
         }
+
+        const floor = Math.floor(parseInt(room) / 100) || parseInt(room);
+
+        deliveryQueue.push({ room, floor, name, barcode });
+        
+        // 층수 기준 최적화 (하층 -> 상층 순서)
+        deliveryQueue.sort((a, b) => a.floor - b.floor);
+
+        updateUI();
+        log(`[적재 완료] ${room}호 (${name}님) / ${floor}층 등록됨`);
+
+        // 입력 폼 초기화
+        document.getElementById('roomInput').value = '';
+        document.getElementById('nameInput').value = '';
+        document.getElementById('barcodeInput').value = '';
+    }
+
+    function updateUI() {
+        const listEl = document.getElementById('queueList');
+        if (deliveryQueue.length === 0) {
+            listEl.innerHTML = '<div style="text-align: center; color: var(--text-sub); font-size: 13px; padding: 10px;">등록된 택배가 없습니다.</div>';
+            return;
+        }
+
+        listEl.innerHTML = deliveryQueue.map(item => `
+            <div class="queue-item">
+                <div class="info">
+                    <strong>${item.room}호 (${item.floor}층) - ${item.name}님</strong>
+                    <span>송장: ${item.barcode}</span>
+                </div>
+                <span class="badge">적재 완료</span>
+            </div>
+        `).join('');
+    }
+
+    function log(msg) {
+        const logEl = document.getElementById('systemLog');
+        logEl.innerHTML += `<br>> ${msg}`;
+        logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function startDelivery() {
+        if (deliveryQueue.length === 0) {
+            alert('올려보낼 택배를 먼저 등록해 주세요.');
+            return;
+        }
+
+        log('=================================');
+        log('-> [업박스 직행 모드 발동]');
+        log('-> 문열림 시간 4분 연장');
+
+        deliveryQueue.forEach((item, index) => {
+            setTimeout(() => {
+                log(`[이동] ${item.floor}층 승강기 도착`);
+                log(`[알림] ${item.room}호 (${item.name}님) 도착 사진 촬영 및 자동 문지 전송!`);
+                
+                if (index === deliveryQueue.length - 1) {
+                    log('-> 모든 택배 배송 완료. 1층으로 복귀합니다.');
+                    deliveryQueue = [];
+                    updateUI();
+                }
+            }, (index + 1) * 1500);
+        });
     }
 </script>
 
